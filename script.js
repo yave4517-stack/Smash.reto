@@ -1,6 +1,6 @@
-// --- 1. DATOS DE PERSONAJES (Mantenida) ---
+// --- 1. DATOS DE PERSONAJES ---
 const todosLosPersonajes = [
-    // ... (Lista completa de personajes de SSBU) ...
+    // La lista completa de personajes se mantiene aquí
     "Mario", "Donkey Kong", "Link", "Samus", "Dark Samus", "Yoshi", "Kirby", "Fox", "Pikachu", "Luigi", 
     "Captain Falcon", "Jigglypuff", "Peach", "Daisy", "Bowser", "Ice Climbers", "Sheik", "Zelda", 
     "Dr. Mario", "Pichu", "Falco", "Marth", "Lucina", "Young Link", "Ganondorf", "Mewtwo", "Roy", 
@@ -13,21 +13,22 @@ const todosLosPersonajes = [
     "Sephiroth", "Pyra/Mythra", "Kazuya", "Sora"
 ];
 
-// --- 2. VARIABLES DE ESTADO DEL JUEGO (Mantenidas) ---
+// --- 2. VARIABLES DE ESTADO DEL JUEGO ---
 let personajesDisponibles = [...todosLosPersonajes];
 let jugadoresRachas = {}; 
 let jugadorActivo = null;
 let numJugadores = 1;
 
-// --- 3. REFERENCIAS DEL DOM (REORGANIZADAS Y VERIFICADAS) ---
+// --- 3. REFERENCIAS DEL DOM ---
 
 // FASE DE CONFIGURACIÓN
 const $setupSection = document.getElementById('setup-section');
 const $numPlayersSelect = document.getElementById('num-players');
 const $playerNameInputsContainer = document.getElementById('player-name-inputs');
-const $startGameBtn = document.getElementById('start-game-btn');
+// NUEVO BOTÓN
+const $confirmNamesBtn = document.getElementById('confirm-names-btn'); 
 
-// FASE DE JUEGO
+// FASE DE JUEGO (Mantenidas)
 const $playerSwitchButtons = document.getElementById('player-switch-buttons');
 const $currentPlayerDisplay = document.getElementById('current-player-display');
 const $characterWheel = document.getElementById('character-wheel');
@@ -42,7 +43,7 @@ const $resultActionsSection = document.getElementById('result-actions');
 const $gameHrTop = document.getElementById('game-hr-top');
 const $gameHrBottom = document.getElementById('game-hr-bottom');
 
-// --- 4. LÓGICA DE CONFIGURACIÓN Y FLUJO (CLAVE DE LA CORRECCIÓN) ---
+// --- 4. LÓGICA DE CONFIGURACIÓN Y FLUJO ---
 
 function generarCamposDeNombre() {
     numJugadores = parseInt($numPlayersSelect.value) || 1;
@@ -53,33 +54,51 @@ function generarCamposDeNombre() {
         div.classList.add('input-group');
         div.innerHTML = `
             <label for="player-name-${i}">Nombre del Jugador ${i}:</label>
-            <input type="text" id="player-name-${i}" class="smash-input" placeholder="Jugador ${i}" value="Jugador ${i}">
-        `;
+            <input type="text" id="player-name-${i}" class="smash-input" placeholder="Tu nombre o alias">
+        `; // El campo empieza vacío para forzar la entrada del nombre.
         $playerNameInputsContainer.appendChild(div);
     }
 }
 
+/**
+ * Función central para iniciar el juego, ahora con VALIDACIÓN.
+ */
 function iniciarJuego() {
     jugadoresRachas = {};
     let firstPlayer = null;
-    
-    // 1. Leer los nombres
+    let allNamesValid = true;
+
+    // 1. Validar y leer los nombres
     for (let i = 1; i <= numJugadores; i++) {
         const input = document.getElementById(`player-name-${i}`);
-        // Utilizamos una validación estricta para asegurar un nombre
-        const nombre = input && input.value.trim() ? input.value.trim() : `Jugador ${i}`; 
-        jugadoresRachas[nombre] = 0;
-        if (i === 1) {
-            firstPlayer = nombre;
+        const nombre = input.value.trim(); 
+        
+        if (nombre === "") {
+            allNamesValid = false;
+            // Destacar el campo vacío
+            input.style.border = '2px solid var(--smash-red)'; 
+        } else {
+            jugadoresRachas[nombre] = 0;
+            if (i === 1) {
+                firstPlayer = nombre;
+            }
+            input.style.border = '2px solid var(--smash-yellow)'; // Restablecer borde
         }
     }
 
+    // Si algún nombre está vacío, se detiene el juego y se alerta al usuario.
+    if (!allNamesValid) {
+        alert("¡No puedes iniciar el reto! Por favor, ingresa el nombre de todos los jugadores.");
+        return; 
+    }
+    
+    // --- Si llegamos aquí, la validación fue exitosa ---
+
     // 2. Ocultar la FASE DE CONFIGURACIÓN
-    // Utilizamos el contenedor padre para evitar errores de referencia
     document.querySelector('.player-selection h2').style.display = 'none';
     $numPlayersSelect.closest('.input-group').style.display = 'none'; 
     $playerNameInputsContainer.style.display = 'none';
-    $startGameBtn.style.display = 'none';
+    $confirmNamesBtn.style.display = 'none'; // Ocultar el nuevo botón
     
     // 3. Mostrar la FASE DE JUEGO
     $gameStatsSection.style.display = 'flex';
@@ -119,6 +138,7 @@ function generarBotonesCambioJugador() {
         $playerSwitchButtons.appendChild(btn);
     });
 }
+
 
 // --- 5. FUNCIONES DE JUEGO (Mantenidas) ---
 
@@ -221,7 +241,7 @@ function registrarDerrota() {
 }
 
 
-// --- 6. INICIALIZACIÓN Y EVENT LISTENERS (SOLUCIÓN FINAL) ---
+// --- 6. INICIALIZACIÓN Y EVENT LISTENERS ---
 
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Inicializar campos de nombre al cargar
@@ -230,9 +250,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // 2. Evento para cambiar el número de campos de nombre
     $numPlayersSelect.addEventListener('change', generarCamposDeNombre);
 
-    // 3. Evento para iniciar el juego - ¡ESTO DEBE FUNCIONAR AHORA!
-    if ($startGameBtn) {
-        $startGameBtn.addEventListener('click', iniciarJuego);
+    // 3. Evento para iniciar el juego (¡Ahora con el nuevo botón de confirmación!)
+    if ($confirmNamesBtn) {
+        $confirmNamesBtn.addEventListener('click', iniciarJuego);
     }
 
     // 4. Eventos del juego
