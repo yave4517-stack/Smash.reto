@@ -1,6 +1,6 @@
-// --- 1. DATOS DE PERSONAJES ---
+// --- 1. DATOS DE PERSONAJES (Mantenida) ---
 const todosLosPersonajes = [
-    // La lista completa de personajes se mantiene aquí
+    // ... (Lista completa de personajes de SSBU) ...
     "Mario", "Donkey Kong", "Link", "Samus", "Dark Samus", "Yoshi", "Kirby", "Fox", "Pikachu", "Luigi", 
     "Captain Falcon", "Jigglypuff", "Peach", "Daisy", "Bowser", "Ice Climbers", "Sheik", "Zelda", 
     "Dr. Mario", "Pichu", "Falco", "Marth", "Lucina", "Young Link", "Ganondorf", "Mewtwo", "Roy", 
@@ -13,13 +13,13 @@ const todosLosPersonajes = [
     "Sephiroth", "Pyra/Mythra", "Kazuya", "Sora"
 ];
 
-// --- 2. VARIABLES DE ESTADO DEL JUEGO ---
+// --- 2. VARIABLES DE ESTADO DEL JUEGO (Mantenidas) ---
 let personajesDisponibles = [...todosLosPersonajes];
 let jugadoresRachas = {}; 
 let jugadorActivo = null;
 let numJugadores = 1;
 
-// --- 3. REFERENCIAS DEL DOM (CRUCIALES PARA EL FORMULARIO) ---
+// --- 3. REFERENCIAS DEL DOM (REORGANIZADAS Y VERIFICADAS) ---
 
 // FASE DE CONFIGURACIÓN
 const $setupSection = document.getElementById('setup-section');
@@ -42,13 +42,9 @@ const $resultActionsSection = document.getElementById('result-actions');
 const $gameHrTop = document.getElementById('game-hr-top');
 const $gameHrBottom = document.getElementById('game-hr-bottom');
 
-// --- 4. LÓGICA DE CONFIGURACIÓN Y MULTIJUGADOR ---
+// --- 4. LÓGICA DE CONFIGURACIÓN Y FLUJO (CLAVE DE LA CORRECCIÓN) ---
 
-/**
- * Genera los campos de entrada de nombre basados en la selección.
- */
 function generarCamposDeNombre() {
-    // Lee el valor del select. Si falla, usa 1 por defecto.
     numJugadores = parseInt($numPlayersSelect.value) || 1;
     $playerNameInputsContainer.innerHTML = '';
 
@@ -63,19 +59,15 @@ function generarCamposDeNombre() {
     }
 }
 
-/**
- * Se ejecuta al hacer clic en "Iniciar Reto".
- * Esta es la función que posiblemente estaba fallando en el flujo anterior.
- */
 function iniciarJuego() {
     jugadoresRachas = {};
     let firstPlayer = null;
     
-    // 1. Leer los nombres de los inputs
+    // 1. Leer los nombres
     for (let i = 1; i <= numJugadores; i++) {
         const input = document.getElementById(`player-name-${i}`);
-        // Usa el nombre ingresado o el placeholder si está vacío
-        const nombre = input.value.trim() || `Jugador ${i}`; 
+        // Utilizamos una validación estricta para asegurar un nombre
+        const nombre = input && input.value.trim() ? input.value.trim() : `Jugador ${i}`; 
         jugadoresRachas[nombre] = 0;
         if (i === 1) {
             firstPlayer = nombre;
@@ -83,8 +75,9 @@ function iniciarJuego() {
     }
 
     // 2. Ocultar la FASE DE CONFIGURACIÓN
-    $setupSection.querySelector('h2').style.display = 'none';
-    $numPlayersSelect.parentElement.style.display = 'none'; 
+    // Utilizamos el contenedor padre para evitar errores de referencia
+    document.querySelector('.player-selection h2').style.display = 'none';
+    $numPlayersSelect.closest('.input-group').style.display = 'none'; 
     $playerNameInputsContainer.style.display = 'none';
     $startGameBtn.style.display = 'none';
     
@@ -110,9 +103,6 @@ function iniciarJuego() {
     actualizarInterfaz();
 }
 
-/**
- * Genera los botones para cambiar el jugador activo.
- */
 function generarBotonesCambioJugador() {
     $playerSwitchButtons.innerHTML = '';
     Object.keys(jugadoresRachas).forEach(nombre => {
@@ -131,7 +121,6 @@ function generarBotonesCambioJugador() {
 }
 
 // --- 5. FUNCIONES DE JUEGO (Mantenidas) ---
-// (Estas funciones se mantienen iguales a la versión anterior)
 
 function obtenerRango(racha) {
     if (racha >= 21) return { name: "LEYENDA", class: "rank-legend" };
@@ -232,7 +221,7 @@ function registrarDerrota() {
 }
 
 
-// --- 6. INICIALIZACIÓN Y EVENT LISTENERS (FLUIDEZ DEL FORMULARIO) ---
+// --- 6. INICIALIZACIÓN Y EVENT LISTENERS (SOLUCIÓN FINAL) ---
 
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Inicializar campos de nombre al cargar
@@ -241,8 +230,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // 2. Evento para cambiar el número de campos de nombre
     $numPlayersSelect.addEventListener('change', generarCamposDeNombre);
 
-    // 3. Evento para iniciar el juego (¡AQUÍ ESTÁ LA LÓGICA DE CLIC!)
-    $startGameBtn.addEventListener('click', iniciarJuego);
+    // 3. Evento para iniciar el juego - ¡ESTO DEBE FUNCIONAR AHORA!
+    if ($startGameBtn) {
+        $startGameBtn.addEventListener('click', iniciarJuego);
+    }
 
     // 4. Eventos del juego
     $newChallengeBtn.addEventListener('click', seleccionarPersonajeAleatorio);
