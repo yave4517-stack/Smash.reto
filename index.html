@@ -12,7 +12,7 @@
             <h1>💥 Desafío Racha SSBU 💥</h1>
         </header>
 
-        <section class="player-selection" id="setup-section">
+        <section id="setup-container">
             <h2>👤 Configuración de Jugadores:</h2>
             <div class="input-group">
                 <label for="num-players">¿Cuántos jugadores?</label>
@@ -33,49 +33,54 @@
             <button id="confirm-names-btn" class="smash-btn primary-btn" style="margin-top: 15px;">
                 ▶️ Empezar Reto (Validar Nombres)
             </button>
+        </section>
+
+
+        <section id="game-container" style="display: none;">
             
-            <p id="current-player-display" style="display: none; margin-top: 10px;">Jugador Activo: **Nombre**</p>
-            <div id="player-switch-buttons" class="btn-group" style="display: none; margin-top: 10px; justify-content: center;">
-                </div>
-            
-            <button id="back-to-setup-btn" class="smash-btn" style="display: none; background-color: #7f8c8d; color: white; margin-top: 10px;">
+            <button id="back-to-setup-btn" class="smash-btn" style="background-color: #7f8c8d; color: white; margin-bottom: 20px;">
                 ⬅️ Regresar a Configuración
             </button>
-        </section>
 
-        <hr id="game-hr-top" style="display: none;">
+            <p id="current-player-display">Jugador Activo: **Nombre**</p>
+            <div id="player-switch-buttons" class="btn-group" style="display: none; justify-content: center;">
+                </div>
+            
+            <hr>
 
-        <section class="stats-display" id="game-stats" style="display: none;">
-            <div class="stat-box rank-box">
-                <h3>🏆 Rango</h3>
-                <p id="current-rank" class="stat-value rank-newcomer">NOVATO</p>
-            </div>
-            <div class="stat-box streak-box">
-                <h3>🔥 Racha Actual (Wins)</h3>
-                <p id="current-streak" class="stat-value streak-count">0</p>
-            </div>
+            <section class="stats-display" id="game-stats">
+                <div class="stat-box rank-box">
+                    <h3>🏆 Rango</h3>
+                    <p id="current-rank" class="stat-value rank-newcomer">NOVATO</p>
+                </div>
+                <div class="stat-box streak-box">
+                    <h3>🔥 Racha Actual (Wins)</h3>
+                    <p id="current-streak" class="stat-value streak-count">0</p>
+                </div>
+            </section>
+            
+            <hr>
+
+            <section class="challenge-area" id="challenge-section">
+                <h2>¿Quién te toca ahora?</h2>
+                <div id="character-wheel" class="character-display">
+                    <p class="initial-message">Presiona "Nuevo Reto" para empezar</p>
+                </div>
+                <button id="new-challenge-btn" class="smash-btn primary-btn">
+                    ✨ Nuevo Reto ✨
+                </button>
+            </section>
+
+            <section class="result-actions" id="result-actions">
+                <button id="win-btn" class="smash-btn win-btn" disabled>
+                    ✅ ¡VICTORIA! (+1 Racha)
+                </button>
+                <button id="lose-btn" class="smash-btn lose-btn" disabled>
+                    ❌ DERROTA (Racha Reiniciada)
+                </button>
+            </section>
         </section>
         
-        <hr id="game-hr-bottom" style="display: none;">
-
-        <section class="challenge-area" id="challenge-section" style="display: none;">
-            <h2>¿Quién te toca ahora?</h2>
-            <div id="character-wheel" class="character-display">
-                <p class="initial-message">Presiona "Nuevo Reto" para empezar</p>
-            </div>
-            <button id="new-challenge-btn" class="smash-btn primary-btn">
-                ✨ Nuevo Reto ✨
-            </button>
-        </section>
-
-        <section class="result-actions" id="result-actions" style="display: none;">
-            <button id="win-btn" class="smash-btn win-btn" disabled>
-                ✅ ¡VICTORIA! (+1 Racha)
-            </button>
-            <button id="lose-btn" class="smash-btn lose-btn" disabled>
-                ❌ DERROTA (Racha Reiniciada)
-            </button>
-        </section>
     </div>
 
     <script src="script.js"></script>

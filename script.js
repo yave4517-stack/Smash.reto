@@ -18,16 +18,19 @@ let jugadoresRachas = {};
 let jugadorActivo = null;
 let numJugadores = 1;
 
-// --- 3. REFERENCIAS DEL DOM ---
+// --- 3. REFERENCIAS DEL DOM (Nuevos contenedores) ---
+
+// CONTENEDORES PRINCIPALES
+const $setupContainer = document.getElementById('setup-container');
+const $gameContainer = document.getElementById('game-container');
 
 // FASE DE CONFIGURACIÓN
-const $setupSection = document.getElementById('setup-section');
 const $numPlayersSelect = document.getElementById('num-players');
 const $playerNameInputsContainer = document.getElementById('player-name-inputs');
 const $confirmNamesBtn = document.getElementById('confirm-names-btn'); 
-const $backToSetupBtn = document.getElementById('back-to-setup-btn'); // REFERENCIA AL BOTÓN DE REGRESO
 
 // FASE DE JUEGO
+const $backToSetupBtn = document.getElementById('back-to-setup-btn');
 const $playerSwitchButtons = document.getElementById('player-switch-buttons');
 const $currentPlayerDisplay = document.getElementById('current-player-display');
 const $characterWheel = document.getElementById('character-wheel');
@@ -36,11 +39,6 @@ const $currentRank = document.getElementById('current-rank');
 const $newChallengeBtn = document.getElementById('new-challenge-btn');
 const $winBtn = document.getElementById('win-btn');
 const $loseBtn = document.getElementById('lose-btn');
-const $gameStatsSection = document.getElementById('game-stats');
-const $challengeSection = document.getElementById('challenge-section');
-const $resultActionsSection = document.getElementById('result-actions');
-const $gameHrTop = document.getElementById('game-hr-top');
-const $gameHrBottom = document.getElementById('game-hr-bottom');
 
 // --- 4. LÓGICA DE CONFIGURACIÓN Y FLUJO ---
 
@@ -59,6 +57,9 @@ function generarCamposDeNombre() {
     }
 }
 
+/**
+ * Función central para iniciar el juego y cambiar de formulario.
+ */
 function iniciarJuego() {
     jugadoresRachas = {};
     let firstPlayer = null;
@@ -71,14 +72,12 @@ function iniciarJuego() {
         
         if (nombre === "") {
             allNamesValid = false;
-            // Destacar campo vacío
             input.style.border = '2px solid var(--smash-red)'; 
         } else {
             jugadoresRachas[nombre] = 0;
             if (i === 1) {
                 firstPlayer = nombre;
             }
-            // Restablecer borde
             input.style.border = '2px solid var(--smash-yellow)'; 
         }
     }
@@ -88,27 +87,14 @@ function iniciarJuego() {
         return; 
     }
     
-    // --- Ocultar la FASE DE CONFIGURACIÓN ---
-    document.querySelector('.player-selection h2').style.display = 'none';
-    $numPlayersSelect.closest('.input-group').style.display = 'none'; 
-    $playerNameInputsContainer.style.display = 'none';
-    $confirmNamesBtn.style.display = 'none'; 
-    
-    // --- Mostrar la FASE DE JUEGO ---
-    $gameStatsSection.style.display = 'flex';
-    $challengeSection.style.display = 'block';
-    $resultActionsSection.style.display = 'flex';
-    $gameHrTop.style.display = 'block';
-    $gameHrBottom.style.display = 'block';
-    $currentPlayerDisplay.style.display = 'block';
-    
-    // MOSTRAR BOTÓN DE REGRESAR
-    $backToSetupBtn.style.display = 'block'; 
+    // 2. Transición de formularios
+    $setupContainer.style.display = 'none'; // Oculta el formulario de configuración
+    $gameContainer.style.display = 'block'; // Muestra el formulario de juego
 
-    // 4. Configurar jugador activo
+    // 3. Configurar estado del juego
     jugadorActivo = firstPlayer;
     
-    // 5. Si es multijugador, generar botones de cambio
+    // 4. Si es multijugador, generar botones de cambio
     if (numJugadores > 1) {
         generarBotonesCambioJugador();
         $playerSwitchButtons.style.display = 'flex';
@@ -120,42 +106,20 @@ function iniciarJuego() {
 }
 
 /**
- * Función para volver a la configuración inicial.
+ * Función para volver a la configuración inicial y resetear el estado.
  */
 function regresarAConfiguracion() {
-    // 1. Mostrar la FASE DE CONFIGURACIÓN
-    document.querySelector('.player-selection h2').style.display = 'block';
+    // 1. Transición de formularios
+    $setupContainer.style.display = 'block'; // Muestra el formulario de configuración
+    $gameContainer.style.display = 'none'; // Oculta el formulario de juego
     
-    // Utilizamos un querySelector simple como respaldo si closest falla en casos raros
-    const numPlayersGroup = $numPlayersSelect.closest('.input-group');
-    if (numPlayersGroup) {
-        numPlayersGroup.style.display = 'block';
-    } else {
-        $numPlayersSelect.parentElement.style.display = 'block'; 
-    }
-    
-    $playerNameInputsContainer.style.display = 'block';
-    $confirmNamesBtn.style.display = 'block'; 
-    
-    // 2. Ocultar la FASE DE JUEGO
-    $gameStatsSection.style.display = 'none';
-    $challengeSection.style.display = 'none';
-    $resultActionsSection.style.display = 'none';
-    $gameHrTop.style.display = 'none';
-    $gameHrBottom.style.display = 'none';
-    $currentPlayerDisplay.style.display = 'none';
-    $playerSwitchButtons.style.display = 'none';
-    
-    // OCULTAR BOTÓN DE REGRESAR
-    $backToSetupBtn.style.display = 'none';
-
-    // 3. Limpiar la ruleta y resetear estado
+    // 2. Limpiar la ruleta y resetear estado
     $characterWheel.innerHTML = '<p class="initial-message">Presiona "Nuevo Reto" para empezar</p>';
     jugadorActivo = null;
     jugadoresRachas = {};
     personajesDisponibles = [...todosLosPersonajes];
     
-    // 4. Regenerar campos de nombre
+    // 3. Regenerar campos de nombre para una nueva configuración
     generarCamposDeNombre();
 }
 
@@ -287,12 +251,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // 2. Evento para cambiar el número de campos de nombre
     $numPlayersSelect.addEventListener('change', generarCamposDeNombre);
 
-    // 3. Evento para iniciar el juego
+    // 3. Evento para iniciar el juego (Transición del formulario)
     if ($confirmNamesBtn) {
         $confirmNamesBtn.addEventListener('click', iniciarJuego);
     }
     
-    // 4. EVENTO PARA REGRESAR
+    // 4. EVENTO PARA REGRESAR (Transición del formulario)
     if ($backToSetupBtn) {
         $backToSetupBtn.addEventListener('click', regresarAConfiguracion);
     }
