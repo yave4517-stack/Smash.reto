@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smash Bros Ultimate - Reto Racha</title>
     <link rel="stylesheet" href="style.css">
-    </head>
+</head>
 <body>
     <div class="smash-container">
         <header class="smash-header">
             <h1>💥 Desafío Racha SSBU 💥</h1>
         </header>
 
-        <section class="player-selection">
+        <section class="player-selection" id="setup-section">
             <h2>👤 Configuración de Jugadores:</h2>
             <div class="input-group">
                 <label for="num-players">¿Cuántos jugadores?</label>
@@ -28,19 +28,18 @@
                 </select>
             </div>
             
-            <div id="player-name-inputs">
-                </div>
+            <div id="player-name-inputs"></div>
 
             <button id="start-game-btn" class="smash-btn primary-btn" style="margin-top: 15px;">
                 ▶️ Iniciar Reto
             </button>
             
             <p id="current-player-display" style="display: none; margin-top: 10px;">Jugador Activo: **Nombre**</p>
-            <div id="player-switch-buttons" class="btn-group" style="display: none; margin-top: 10px;">
+            <div id="player-switch-buttons" class="btn-group" style="display: none; margin-top: 10px; justify-content: center;">
                 </div>
         </section>
 
-        <hr>
+        <hr id="game-hr-top" style="display: none;">
 
         <section class="stats-display" id="game-stats" style="display: none;">
             <div class="stat-box rank-box">
@@ -53,7 +52,7 @@
             </div>
         </section>
         
-        <hr id="game-hr" style="display: none;">
+        <hr id="game-hr-bottom" style="display: none;">
 
         <section class="challenge-area" id="challenge-section" style="display: none;">
             <h2>¿Quién te toca ahora?</h2>
