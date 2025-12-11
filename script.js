@@ -25,8 +25,7 @@ const $setupSection = document.getElementById('setup-section');
 const $numPlayersSelect = document.getElementById('num-players');
 const $playerNameInputsContainer = document.getElementById('player-name-inputs');
 const $confirmNamesBtn = document.getElementById('confirm-names-btn'); 
-// NUEVA REFERENCIA
-const $backToSetupBtn = document.getElementById('back-to-setup-btn');
+const $backToSetupBtn = document.getElementById('back-to-setup-btn'); // REFERENCIA AL BOTÓN DE REGRESO
 
 // FASE DE JUEGO
 const $playerSwitchButtons = document.getElementById('player-switch-buttons');
@@ -72,12 +71,14 @@ function iniciarJuego() {
         
         if (nombre === "") {
             allNamesValid = false;
+            // Destacar campo vacío
             input.style.border = '2px solid var(--smash-red)'; 
         } else {
             jugadoresRachas[nombre] = 0;
             if (i === 1) {
                 firstPlayer = nombre;
             }
+            // Restablecer borde
             input.style.border = '2px solid var(--smash-yellow)'; 
         }
     }
@@ -119,12 +120,20 @@ function iniciarJuego() {
 }
 
 /**
- * NUEVA FUNCIÓN: Devuelve la interfaz a la configuración inicial.
+ * Función para volver a la configuración inicial.
  */
 function regresarAConfiguracion() {
     // 1. Mostrar la FASE DE CONFIGURACIÓN
     document.querySelector('.player-selection h2').style.display = 'block';
-    $numPlayersSelect.closest('.input-group').style.display = 'block'; 
+    
+    // Utilizamos un querySelector simple como respaldo si closest falla en casos raros
+    const numPlayersGroup = $numPlayersSelect.closest('.input-group');
+    if (numPlayersGroup) {
+        numPlayersGroup.style.display = 'block';
+    } else {
+        $numPlayersSelect.parentElement.style.display = 'block'; 
+    }
+    
     $playerNameInputsContainer.style.display = 'block';
     $confirmNamesBtn.style.display = 'block'; 
     
@@ -140,15 +149,13 @@ function regresarAConfiguracion() {
     // OCULTAR BOTÓN DE REGRESAR
     $backToSetupBtn.style.display = 'none';
 
-    // 3. Limpiar la ruleta
+    // 3. Limpiar la ruleta y resetear estado
     $characterWheel.innerHTML = '<p class="initial-message">Presiona "Nuevo Reto" para empezar</p>';
-    
-    // 4. Resetear el estado del juego para un nuevo inicio
     jugadorActivo = null;
     jugadoresRachas = {};
     personajesDisponibles = [...todosLosPersonajes];
     
-    // 5. Regenerar campos de nombre (con el número actual de jugadores)
+    // 4. Regenerar campos de nombre
     generarCamposDeNombre();
 }
 
@@ -169,14 +176,107 @@ function generarBotonesCambioJugador() {
     });
 }
 
-// --- El resto de las funciones (obtenerRango, actualizarInterfaz, seleccionarPersonajeAleatorio, registrarVictoria, registrarDerrota) se mantienen igual ---
-// ... (código no modificado) ...
-function obtenerRango(racha) { /* ... */ }
-function actualizarInterfaz() { /* ... */ }
-function seleccionarPersonajeAleatorio() { /* ... */ }
-function registrarVictoria() { /* ... */ }
-function registrarDerrota() { /* ... */ }
-// ...
+
+// --- 5. FUNCIONES DE JUEGO AUXILIARES (Mantenidas) ---
+
+function obtenerRango(racha) {
+    if (racha >= 21) return { name: "LEYENDA", class: "rank-legend" };
+    if (racha >= 11) return { name: "ÉLITE", class: "rank-elite" };
+    if (racha >= 6) return { name: "VETERANO", class: "rank-veteran" };
+    if (racha >= 1) return { name: "LUCHADOR", class: "rank-fighter" };
+    return { name: "NOVATO", class: "rank-newcomer" };
+}
+
+function actualizarInterfaz() {
+    if (!jugadorActivo) return;
+
+    const racha = jugadoresRachas[jugadorActivo] || 0;
+    const rango = obtenerRango(racha);
+
+    $currentPlayerDisplay.innerHTML = `Jugador Activo: **${jugadorActivo}**`;
+    $currentStreak.textContent = racha;
+    
+    $currentRank.textContent = rango.name;
+    $currentRank.className = `stat-value ${rango.class}`;
+
+    const desafioIniciado = $characterWheel.querySelector('.character-name');
+    $winBtn.disabled = !desafioIniciado;
+    $loseBtn.disabled = !desafioIniciado;
+    
+    if (personajesDisponibles.length === 0 && !desafioIniciado) {
+        $newChallengeBtn.textContent = '¡RETO COMPLETADO! (Reiniciar)';
+        $newChallengeBtn.disabled = false;
+    } else {
+        $newChallengeBtn.textContent = '✨ Nuevo Reto ✨';
+    }
+
+    document.querySelectorAll('.player-switch-btn').forEach(btn => {
+        if (btn.dataset.player === jugadorActivo) {
+            btn.classList.add('active-player');
+        } else {
+            btn.classList.remove('active-player');
+        }
+    });
+}
+
+function seleccionarPersonajeAleatorio() {
+    if (personajesDisponibles.length === 0) {
+        personajesDisponibles = [...todosLosPersonajes];
+        alert("¡Todos los personajes han sido jugados! Reiniciando la lista de luchadores.");
+    }
+
+    $newChallengeBtn.disabled = true;
+    $winBtn.disabled = true;
+    $loseBtn.disabled = true;
+
+    const duracionRuleta = 2000;
+    const pasos = 15;
+    let contador = 0;
+    
+    const ruletaInterval = setInterval(() => {
+        const tempIndex = Math.floor(Math.random() * personajesDisponibles.length);
+        const tempCharacter = personajesDisponibles[tempIndex];
+        $characterWheel.innerHTML = `<p class="character-name" style="font-size: 2em; color: #fff;">${tempCharacter}</p>`;
+        
+        contador++;
+        if (contador >= pasos) {
+            clearInterval(ruletaInterval);
+            
+            const indiceFinal = Math.floor(Math.random() * personajesDisponibles.length);
+            const personajeFinal = personajesDisponibles[indiceFinal];
+            
+            personajesDisponibles.splice(indiceFinal, 1); 
+
+            $characterWheel.innerHTML = `<p class="character-name">${personajeFinal}</p>`;
+
+            $newChallengeBtn.disabled = false;
+            $winBtn.disabled = false;
+            $loseBtn.disabled = false;
+        }
+    }, duracionRuleta / pasos);
+}
+
+function registrarVictoria() {
+    if (!$characterWheel.querySelector('.character-name')) return;
+    
+    jugadoresRachas[jugadorActivo] = (jugadoresRachas[jugadorActivo] || 0) + 1;
+    
+    $characterWheel.innerHTML = '<p class="initial-message">¡Ganaste! Presiona "Nuevo Reto" para seguir la racha.</p>';
+    
+    actualizarInterfaz();
+}
+
+function registrarDerrota() {
+    if (!$characterWheel.querySelector('.character-name')) return;
+
+    jugadoresRachas[jugadorActivo] = 0;
+    personajesDisponibles = [...todosLosPersonajes];
+    
+    $characterWheel.innerHTML = '<p class="initial-message">¡Derrota! Racha Reiniciada. Presiona "Nuevo Reto" para volver a empezar.</p>';
+    
+    actualizarInterfaz();
+}
+
 
 // --- 6. INICIALIZACIÓN Y EVENT LISTENERS ---
 
@@ -192,7 +292,7 @@ document.addEventListener('DOMContentLoaded', () => {
         $confirmNamesBtn.addEventListener('click', iniciarJuego);
     }
     
-    // 4. NUEVO EVENTO PARA REGRESAR
+    // 4. EVENTO PARA REGRESAR
     if ($backToSetupBtn) {
         $backToSetupBtn.addEventListener('click', regresarAConfiguracion);
     }

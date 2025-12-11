@@ -1,18 +1,17 @@
-/* Importar una fuente temática (ejemplo: Google Fonts - Bungee/Press Start 2P) */
 @import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
 
 :root {
-    --smash-blue: #007bff; /* Azul primario */
-    --smash-red: #ff3838; /* Rojo de derrota */
-    --smash-green: #2ecc71; /* Verde de victoria */
-    --smash-yellow: #f1c40f; /* Amarillo de acento */
-    --smash-dark: #34495e; /* Fondo oscuro/texto */
-    --smash-light: #ecf0f1; /* Fondo claro/texto */
+    --smash-blue: #007bff;
+    --smash-red: #ff3838;
+    --smash-green: #2ecc71;
+    --smash-yellow: #f1c40f;
+    --smash-dark: #34495e;
+    --smash-light: #ecf0f1;
     --font-primary: 'Bungee', cursive, sans-serif;
 }
 
 body {
-    background-color: #2c3e50; /* Fondo azul oscuro */
+    background-color: #2c3e50;
     color: var(--smash-light);
     font-family: Arial, sans-serif;
     display: flex;
@@ -85,12 +84,37 @@ body {
     font-size: 1.1em;
 }
 
-/* --- Player Selection --- */
+/* --- Player Selection and Input --- */
 .player-selection h2 {
     color: var(--smash-light);
 }
 
-.btn-group button {
+.input-group {
+    margin: 10px 0;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: var(--smash-yellow);
+}
+
+.smash-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 2px solid var(--smash-yellow);
+    border-radius: 5px;
+    background-color: #2c3e50;
+    color: var(--smash-light);
+    box-sizing: border-box;
+    font-size: 1em;
+}
+
+/* Botones para cambiar de jugador */
+.player-switch-btn {
     background-color: #5d6d7e;
     color: white;
     border: 2px solid #5d6d7e;
@@ -99,9 +123,10 @@ body {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.2s;
+    font-family: Arial, sans-serif;
 }
 
-.btn-group button.active-player {
+.player-switch-btn.active-player {
     background-color: var(--smash-yellow);
     color: var(--smash-dark);
     font-weight: bold;
@@ -141,6 +166,10 @@ body {
 .rank-legend { color: var(--smash-red); font-size: 2em; }
 
 /* --- Character Display (Ruleta) --- */
+.challenge-area {
+    text-align: center;
+}
+
 .character-display {
     background: #2c3e50;
     border: 5px dashed var(--smash-yellow);
@@ -152,7 +181,7 @@ body {
     margin: 20px auto;
     width: 90%;
     transition: all 0.5s ease;
-    overflow: hidden; /* Importante para el efecto */
+    overflow: hidden;
 }
 
 .character-name {
@@ -160,7 +189,7 @@ body {
     font-size: 3em;
     color: var(--smash-yellow);
     text-shadow: 4px 4px 0 var(--smash-dark);
-    animation: fadeIn 1s ease-out; /* Animación para el personaje final */
+    animation: fadeIn 1s ease-out;
 }
 
 .initial-message {
@@ -168,7 +197,6 @@ body {
     color: #95a5a6;
 }
 
-/* Animación de la "ruleta" (solo el personaje final aparece con fade) */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
@@ -182,47 +210,7 @@ hr {
     margin: 20px 0;
 }
 
-/* ... (Todo el CSS anterior se mantiene) ... */
-
-/* Nuevos estilos para inputs */
-.input-group {
-    margin: 10px 0;
-    text-align: left;
-}
-
-.input-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: var(--smash-light);
-}
-
-.smash-input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 2px solid var(--smash-yellow);
-    border-radius: 5px;
-    background-color: #2c3e50;
-    color: var(--smash-light);
-    box-sizing: border-box;
-    font-size: 1em;
-}
-
-/* Estilo para los botones de cambio de jugador (Player Switch) */
-.player-switch-btn {
-    background-color: #5d6d7e;
-    color: white;
-    border: 2px solid #5d6d7e;
-    padding: 8px 15px;
-    margin: 5px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.player-switch-btn.active-player {
-    background-color: var(--smash-yellow);
-    color: var(--smash-dark);
-    font-weight: bold;
+.result-actions {
+    display: flex;
+    justify-content: center;
 }
