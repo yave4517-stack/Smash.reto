@@ -1,7 +1,7 @@
 // --- 1. DATOS DE PERSONAJES (¡LISTA COMPLETA DE SSBU + DLC!) ---
 const todosLosPersonajes = [
     // Personajes Base
-    "Mario", "Donkey Kong", "Link", "Samus", "Dark Samus", "Yoshi", "Kirby", "Fox", "Pikachu", "Luigi", 
+    "Mario", "Donkey Kong", "Link", "samus", "Dark Samus", "Yoshi", "Kirby", "Fox", "Pikachu", "Luigi", 
     "Captain Falcon", "Jigglypuff", "Peach", "Daisy", "Bowser", "Ice Climbers", "Sheik", "Zelda", 
     "Dr. Mario", "Pichu", "Falco", "Marth", "Lucina", "Young Link", "Ganondorf", "Mewtwo", "Roy", 
     "Chrom", "Mr. Game & Watch", "Meta Knight", "Pit", "Dark Pit", "Zero Suit Samus", "Wario", 
