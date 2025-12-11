@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smash Bros Ultimate - Reto Racha</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="smash-container">
+        <header class="smash-header">
+            <h1>💥 Desafío Racha SSBU 💥</h1>
+        </header>
+
+        <section class="player-selection">
+            <h2>👤 Selecciona Jugadores:</h2>
+            <div id="player-buttons" class="btn-group">
+                </div>
+            <p id="current-player-display">Jugador Activo: **Jugador 1**</p>
+        </section>
+
+        <hr>
+
+        <section class="stats-display">
+            <div class="stat-box rank-box">
+                <h3>🏆 Rango</h3>
+                <p id="current-rank" class="stat-value rank-newcomer">NOVATO</p>
+            </div>
+            <div class="stat-box streak-box">
+                <h3>🔥 Racha Actual (Wins)</h3>
+                <p id="current-streak" class="stat-value streak-count">0</p>
+            </div>
+        </section>
+        
+        <hr>
+
+        <section class="challenge-area">
+            <h2>¿Quién te toca ahora?</h2>
+            <div id="character-wheel" class="character-display">
+                <p class="initial-message">Presiona "Nuevo Reto" para empezar</p>
+            </div>
+            <button id="new-challenge-btn" class="smash-btn primary-btn">
+                ✨ Nuevo Reto ✨
+            </button>
+        </section>
+
+        <section class="result-actions">
+            <button id="win-btn" class="smash-btn win-btn" disabled>
+                ✅ ¡VICTORIA! (+1 Racha)
+            </button>
+            <button id="lose-btn" class="smash-btn lose-btn" disabled>
+                ❌ DERROTA (Racha Reiniciada)
+            </button>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
