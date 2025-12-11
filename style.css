@@ -181,3 +181,48 @@ hr {
     background-image: linear-gradient(to right, rgba(0, 0, 0, 0), var(--smash-yellow), rgba(0, 0, 0, 0));
     margin: 20px 0;
 }
+
+/* ... (Todo el CSS anterior se mantiene) ... */
+
+/* Nuevos estilos para inputs */
+.input-group {
+    margin: 10px 0;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: var(--smash-light);
+}
+
+.smash-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 2px solid var(--smash-yellow);
+    border-radius: 5px;
+    background-color: #2c3e50;
+    color: var(--smash-light);
+    box-sizing: border-box;
+    font-size: 1em;
+}
+
+/* Estilo para los botones de cambio de jugador (Player Switch) */
+.player-switch-btn {
+    background-color: #5d6d7e;
+    color: white;
+    border: 2px solid #5d6d7e;
+    padding: 8px 15px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.player-switch-btn.active-player {
+    background-color: var(--smash-yellow);
+    color: var(--smash-dark);
+    font-weight: bold;
+}

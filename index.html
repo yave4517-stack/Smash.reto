@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smash Bros Ultimate - Reto Racha</title>
     <link rel="stylesheet" href="style.css">
-</head>
+    </head>
 <body>
     <div class="smash-container">
         <header class="smash-header">
@@ -13,15 +13,36 @@
         </header>
 
         <section class="player-selection">
-            <h2>👤 Selecciona Jugadores:</h2>
-            <div id="player-buttons" class="btn-group">
+            <h2>👤 Configuración de Jugadores:</h2>
+            <div class="input-group">
+                <label for="num-players">¿Cuántos jugadores?</label>
+                <select id="num-players" class="smash-input">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                </select>
+            </div>
+            
+            <div id="player-name-inputs">
                 </div>
-            <p id="current-player-display">Jugador Activo: **Jugador 1**</p>
+
+            <button id="start-game-btn" class="smash-btn primary-btn" style="margin-top: 15px;">
+                ▶️ Iniciar Reto
+            </button>
+            
+            <p id="current-player-display" style="display: none; margin-top: 10px;">Jugador Activo: **Nombre**</p>
+            <div id="player-switch-buttons" class="btn-group" style="display: none; margin-top: 10px;">
+                </div>
         </section>
 
         <hr>
 
-        <section class="stats-display">
+        <section class="stats-display" id="game-stats" style="display: none;">
             <div class="stat-box rank-box">
                 <h3>🏆 Rango</h3>
                 <p id="current-rank" class="stat-value rank-newcomer">NOVATO</p>
@@ -32,9 +53,9 @@
             </div>
         </section>
         
-        <hr>
+        <hr id="game-hr" style="display: none;">
 
-        <section class="challenge-area">
+        <section class="challenge-area" id="challenge-section" style="display: none;">
             <h2>¿Quién te toca ahora?</h2>
             <div id="character-wheel" class="character-display">
                 <p class="initial-message">Presiona "Nuevo Reto" para empezar</p>
@@ -44,7 +65,7 @@
             </button>
         </section>
 
-        <section class="result-actions">
+        <section class="result-actions" id="result-actions" style="display: none;">
             <button id="win-btn" class="smash-btn win-btn" disabled>
                 ✅ ¡VICTORIA! (+1 Racha)
             </button>
