@@ -36,28 +36,35 @@ function iniciarJuegoYGuardar() {
         const input = document.getElementById(`player-name-${i}`);
         const nombre = input.value.trim(); 
         
+        // Limpiamos los estilos de error anteriores
+        input.style.border = '2px solid var(--smash-yellow)'; 
+        
         if (nombre === "") {
             allNamesValid = false;
-            input.style.border = '2px solid red'; // Destacar campo vacío
+            // Destacar campo vacío
+            input.style.border = '2px solid red'; 
         } else {
             jugadoresRachas[nombre] = 0; // Inicializamos racha en 0
             if (i === 1) {
                 firstPlayer = nombre;
             }
-            input.style.border = '2px solid var(--smash-yellow)'; 
         }
     }
 
+    // Si algún nombre está vacío, mostramos la alerta y SALIMOS de la función.
     if (!allNamesValid) {
         alert("¡No puedes iniciar el reto! Por favor, ingresa el nombre de todos los jugadores.");
         return; 
     }
     
+    // --- Si llegamos aquí, la validación fue exitosa ---
+
     // 2. GUARDAR DATOS EN LOCALSTORAGE
     localStorage.setItem('jugadoresRachas', JSON.stringify(jugadoresRachas));
     localStorage.setItem('jugadorActivo', firstPlayer);
     
     // 3. REDIRIGIR AL JUEGO
+    // NOTA: Asegúrate de que 'game.html' exista en el mismo directorio.
     window.location.href = 'game.html'; 
 }
 
@@ -65,6 +72,13 @@ function iniciarJuegoYGuardar() {
 // --- 4. INICIALIZACIÓN Y EVENT LISTENERS ---
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Es buena práctica inicializar la variable CSS si no está definida en el script.
+    // Aunque deberías tenerla en style.css, la definimos aquí para el caso de error.
+    const rootStyle = document.documentElement.style;
+    if (!rootStyle.getPropertyValue('--smash-yellow')) {
+        rootStyle.setProperty('--smash-yellow', '#f1c40f');
+    }
+    
     generarCamposDeNombre();
     $numPlayersSelect.addEventListener('change', generarCamposDeNombre);
     
