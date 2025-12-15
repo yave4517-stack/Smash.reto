@@ -43,6 +43,10 @@
                     <h3>🔥 Racha Actual (Wins)</h3>
                     <p id="current-streak" class="stat-value streak-count">0</p>
                 </div>
+                <div class="stat-box remaining-box">
+                    <h3>🗓️ Combates Restantes</h3>
+                    <p id="remaining-combats" class="stat-value remaining-count">0</p>
+                </div>
             </section>
             
             <hr>
@@ -65,6 +69,18 @@
                     ❌ DERROTA (Racha Reiniciada)
                 </button>
             </section>
+        </section>
+        
+        <section id="congratulations-container" style="display: none;">
+            <div class="congrats-box">
+                <h2 class="congrats-title">🎉 ¡RETO SSBU COMPLETADO! 🎉</h2>
+                <p class="congrats-message">¡Felicidades, <span id="final-player-name"></span>!</p>
+                <p class="congrats-message">Has superado el desafío de los <span id="final-total-chars"></span> personajes.</p>
+                <p class="congrats-message">¡Ahora ve por tu racha más alta!</p>
+                <button id="restart-full-btn" class="smash-btn primary-btn" style="margin-top: 20px;">
+                    🔄 Empezar Nuevo Reto
+                </button>
+            </div>
         </section>
         
     </div>

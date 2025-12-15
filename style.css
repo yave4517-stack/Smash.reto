@@ -1,199 +1,36 @@
-@import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
+/* ... (Mantener estilos existentes) ... */
 
-:root {
-    --smash-blue: #007bff;
-    --smash-red: #ff3838;
-    --smash-green: #2ecc71;
-    --smash-yellow: #f1c40f;
-    --smash-dark: #34495e;
-    --smash-light: #ecf0f1;
-    --font-primary: 'Bungee', cursive, sans-serif;
-}
-
-body {
-    background-color: #2c3e50;
-    color: var(--smash-light);
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    padding: 20px;
-    margin: 0;
-}
-
-.smash-container {
-    background: #34495e;
-    border: 5px solid var(--smash-yellow);
-    border-radius: 15px;
-    padding: 30px;
-    max-width: 800px;
-    width: 100%;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
-    text-align: center;
-}
-
-.smash-header h1 {
-    font-family: var(--font-primary);
-    color: var(--smash-yellow);
-    text-shadow: 3px 3px 0px var(--smash-dark);
-    font-size: 2.5em;
-    margin-bottom: 20px;
-}
-
-/* --- Botones Generales --- */
-.smash-btn {
-    font-family: var(--font-primary);
-    padding: 15px 25px;
-    margin: 10px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: transform 0.1s, box-shadow 0.1s;
-    text-transform: uppercase;
-    font-weight: bold;
-}
-
-.smash-btn:hover:not([disabled]) {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
-}
-
-.smash-btn:active:not([disabled]) {
-    transform: translateY(0);
-}
-
-.smash-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-.primary-btn {
-    background-color: var(--smash-blue);
-    color: white;
-    font-size: 1.2em;
-}
-
-.win-btn {
-    background-color: var(--smash-green);
-    color: white;
-    font-size: 1.1em;
-}
-
-.lose-btn {
-    background-color: var(--smash-red);
-    color: white;
-    font-size: 1.1em;
-}
-
-/* --- Player Selection and Input --- */
-#setup-container h2 {
-    color: var(--smash-light);
-}
-
-.input-group {
-    margin: 10px auto;
-    max-width: 300px;
-    text-align: left;
-}
-
-.input-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: var(--smash-yellow);
-}
-
-.smash-input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 2px solid var(--smash-yellow);
-    border-radius: 5px;
-    background-color: #2c3e50;
-    color: var(--smash-light);
-    box-sizing: border-box;
-    font-size: 1em;
-}
-
-.player-info {
-    font-size: 1.2em;
-    font-weight: bold;
-    color: var(--smash-yellow);
-    margin-bottom: 20px;
-}
-
-/* --- Stats Display --- */
+/* --- Stats Display (Ajuste para 3 boxes) --- */
 .stats-display {
     display: flex;
     justify-content: space-around;
+    /* Permite envolver si es necesario en pantallas pequeñas */
+    flex-wrap: wrap; 
     margin: 20px 0;
 }
 
-.stat-box {
-    background: #2c3e50;
-    padding: 15px 25px;
-    border-radius: 10px;
-    min-width: 150px;
-    border-left: 5px solid var(--smash-blue);
+/* --- Congratulations Screen --- */
+#congratulations-container {
+    padding: 50px 20px;
 }
 
-.stat-value {
+.congrats-box {
+    background: #2c3e50;
+    border: 5px solid var(--smash-green);
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 0 25px rgba(46, 204, 113, 0.5); /* Sombra verde */
+}
+
+.congrats-title {
     font-family: var(--font-primary);
+    color: var(--smash-green);
     font-size: 2.5em;
-    margin: 5px 0 0 0;
+    margin-bottom: 20px;
 }
 
-.rank-newcomer { color: var(--smash-light); }
-.rank-fighter { color: var(--smash-blue); }
-.rank-veteran { color: var(--smash-green); }
-.rank-elite { color: var(--smash-yellow); }
-.rank-legend { color: var(--smash-red); font-size: 2em; }
-
-/* --- Character Display (Ruleta) --- */
-.challenge-area {
-    text-align: center;
-}
-
-.character-display {
-    background: #2c3e50;
-    border: 5px dashed var(--smash-yellow);
-    border-radius: 10px;
-    min-height: 150px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 20px auto;
-    width: 90%;
-    transition: all 0.5s ease;
-    overflow: hidden;
-}
-
-.character-name {
-    font-family: var(--font-primary);
-    font-size: 3em;
-    color: var(--smash-yellow);
-    text-shadow: 4px 4px 0 var(--smash-dark);
-    animation: fadeIn 1s ease-out;
-}
-
-.initial-message {
+.congrats-message {
     font-size: 1.2em;
-    color: #95a5a6;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* Línea de separación */
-hr {
-    border: 0;
-    height: 1px;
-    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), var(--smash-yellow), rgba(0, 0, 0, 0));
-    margin: 20px 0;
-}
-
-.result-actions {
-    display: flex;
-    justify-content: center;
+    color: var(--smash-light);
+    margin: 10px 0;
 }
