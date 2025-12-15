@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smash Bros Ultimate - Configuración</title>
+    <title>Smash Bros Ultimate - Reto Racha</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -13,28 +13,62 @@
         </header>
 
         <section id="setup-container">
-            <h2>👤 Configuración de Jugadores:</h2>
+            <h2>👤 Ingresa tu Nombre:</h2>
             <div class="input-group">
-                <label for="num-players">¿Cuántos jugadores?</label>
-                <select id="num-players" class="smash-input">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                </select>
+                <label for="player-name-input">Tu nombre o alias:</label>
+                <input type="text" id="player-name-input" class="smash-input" placeholder="Ej: JuanitoSSB">
             </div>
             
-            <div id="player-name-inputs"></div>
-
-            <button id="confirm-names-btn" class="smash-btn primary-btn" style="margin-top: 15px;">
-                ▶️ INICIAR RETO </button>
+            <button id="confirm-name-btn" class="smash-btn primary-btn" style="margin-top: 15px;">
+                ▶️ ACEPTAR Y EMPEZAR
+            </button>
         </section>
+
+
+        <section id="game-container" style="display: none;">
+            
+            <p id="current-player-display" class="player-info">Jugador Activo: **Nombre**</p>
+            <button id="back-to-setup-btn" class="smash-btn" style="background-color: #7f8c8d; color: white; margin-bottom: 20px;">
+                ⬅️ Regresar (Cambiar Nombre)
+            </button>
+            
+            <hr>
+
+            <section class="stats-display" id="game-stats">
+                <div class="stat-box rank-box">
+                    <h3>🏆 Rango</h3>
+                    <p id="current-rank" class="stat-value rank-newcomer">NOVATO</p>
+                </div>
+                <div class="stat-box streak-box">
+                    <h3>🔥 Racha Actual (Wins)</h3>
+                    <p id="current-streak" class="stat-value streak-count">0</p>
+                </div>
+            </section>
+            
+            <hr>
+
+            <section class="challenge-area" id="challenge-section">
+                <h2>¿Quién te toca ahora?</h2>
+                <div id="character-wheel" class="character-display">
+                    <p class="initial-message">Presiona el botón para empezar</p>
+                </div>
+                <button id="new-challenge-btn" class="smash-btn primary-btn">
+                    DAR NUEVO PERSONAJE
+                </button>
+            </section>
+
+            <section class="result-actions" id="result-actions">
+                <button id="win-btn" class="smash-btn win-btn" disabled>
+                    ✅ VICTORIA (+1 Racha)
+                </button>
+                <button id="lose-btn" class="smash-btn lose-btn" disabled>
+                    ❌ DERROTA (Racha Reiniciada)
+                </button>
+            </section>
+        </section>
+        
     </div>
 
-    <script src="index-script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

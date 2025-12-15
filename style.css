@@ -85,12 +85,13 @@ body {
 }
 
 /* --- Player Selection and Input --- */
-.player-selection h2 {
+#setup-container h2 {
     color: var(--smash-light);
 }
 
 .input-group {
-    margin: 10px 0;
+    margin: 10px auto;
+    max-width: 300px;
     text-align: left;
 }
 
@@ -113,29 +114,11 @@ body {
     font-size: 1em;
 }
 
-/* Botones para cambiar de jugador */
-.player-switch-btn {
-    background-color: #5d6d7e;
-    color: white;
-    border: 2px solid #5d6d7e;
-    padding: 8px 15px;
-    margin: 5px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    font-family: Arial, sans-serif;
-}
-
-.player-switch-btn.active-player {
-    background-color: var(--smash-yellow);
-    color: var(--smash-dark);
+.player-info {
+    font-size: 1.2em;
     font-weight: bold;
-}
-
-#current-player-display {
-    font-style: italic;
-    margin-top: 10px;
     color: var(--smash-yellow);
+    margin-bottom: 20px;
 }
 
 /* --- Stats Display --- */
