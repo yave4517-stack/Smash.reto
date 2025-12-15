@@ -33,7 +33,16 @@ function iniciarJuegoYGuardar() {
 
     // 1. Validar y leer los nombres
     for (let i = 1; i <= numJugadores; i++) {
+        // Obtenemos la referencia al input
         const input = document.getElementById(`player-name-${i}`);
+        
+        // *VERIFICACIÓN CLAVE*: Si por alguna razón el campo no existe, detenemos y alertamos.
+        if (!input) {
+            console.error(`Error: No se encontró el campo de nombre para el Jugador ${i}.`);
+            alert("Error: Faltan campos de nombre. Intenta recargar la página.");
+            return;
+        }
+        
         const nombre = input.value.trim(); 
         
         // Limpiamos los estilos de error anteriores
@@ -51,20 +60,17 @@ function iniciarJuegoYGuardar() {
         }
     }
 
-    // Si algún nombre está vacío, mostramos la alerta y SALIMOS de la función.
+    // 2. Si la validación falló (algún campo vacío), alertamos y detenemos la redirección.
     if (!allNamesValid) {
         alert("¡No puedes iniciar el reto! Por favor, ingresa el nombre de todos los jugadores.");
         return; 
     }
     
-    // --- Si llegamos aquí, la validación fue exitosa ---
-
-    // 2. GUARDAR DATOS EN LOCALSTORAGE
+    // 3. GUARDAR DATOS EN LOCALSTORAGE
     localStorage.setItem('jugadoresRachas', JSON.stringify(jugadoresRachas));
     localStorage.setItem('jugadorActivo', firstPlayer);
     
-    // 3. REDIRIGIR AL JUEGO
-    // NOTA: Asegúrate de que 'game.html' exista en el mismo directorio.
+    // 4. REDIRIGIR AL JUEGO
     window.location.href = 'game.html'; 
 }
 
@@ -72,16 +78,13 @@ function iniciarJuegoYGuardar() {
 // --- 4. INICIALIZACIÓN Y EVENT LISTENERS ---
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Es buena práctica inicializar la variable CSS si no está definida en el script.
-    // Aunque deberías tenerla en style.css, la definimos aquí para el caso de error.
-    const rootStyle = document.documentElement.style;
-    if (!rootStyle.getPropertyValue('--smash-yellow')) {
-        rootStyle.setProperty('--smash-yellow', '#f1c40f');
-    }
-    
+    // 1. Inicializa los campos de nombre al cargar la página (por defecto, 1)
     generarCamposDeNombre();
+
+    // 2. Evento para cambiar el número de campos de nombre
     $numPlayersSelect.addEventListener('change', generarCamposDeNombre);
     
+    // 3. Evento para iniciar el juego
     if ($confirmNamesBtn) {
         $confirmNamesBtn.addEventListener('click', iniciarJuegoYGuardar);
     }
